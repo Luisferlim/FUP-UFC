@@ -32,15 +32,15 @@ int main (){
 				
 				//se for igual a conta 1
 				if (conta == num1){
-					sal1 = sal1 - valor;
+					sal1 -= valor;
 				}
 				//se for igual a conta 2
 				else if (conta == num2){
-					sal2 = sal2 - valor;
+					sal2 -= valor;
 				} 
 				//se for igual a conta 3
 				else if (conta == num3){
-					sal3 = sal3 - valor;
+					sal3 -= valor;
 				} 
 				//se não for igual a nenhuma conta
 				else{
