@@ -2,22 +2,10 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-/*A partir do programa anterior, crie um novo programa chamado BancoFuncao capaz de
-armazenar e gerenciar “n” contas bancárias, onde “n” é um número fornecido pelo
-usuário. As contas devem ser armazenadas em um vetor. Utilize funções quando
-necessário. Não utilize registros ou arquivos. 
-*/
-
-// funçao para imprimir o saldo
-//funcao para debitar
-//funcao para transfer
-
 //funcao para verificar se a conta existe
 bool existe_conta (int n, int* num, int conta){
 	bool achou = 0;
-	
 	while (!achou){
-		
 		for (int i = 0; i < n; i++){
 			if (conta == num[i]){
 				achou = 1;
@@ -33,10 +21,42 @@ bool existe_conta (int n, int* num, int conta){
 }
 
 //funcao para creditar
-int creditar (int n, int* num, int* sal, int valor, int conta){
+int creditar (int n, int* num, float* sal, float valor, int conta){
 	for (int i = 0; i < n; i++){
 		if (conta == num[i]){
 			sal[i] -= valor;
+		}
+	}
+}
+
+//funcao para debitar
+int debitar (int n, int* num, float* sal, float valor, int conta){
+	for (int i = 0; i < n; i++){
+		if (conta == num[i]){
+			sal[i] += valor;
+		}
+	}
+}
+
+// funçao para imprimir o saldo
+int saldo (int n, int* num, float* sal, int conta){
+	for (int i = 0; i < n; i++){
+		if (conta == num[i]){
+			printf("seu saldo eh de R$%.2f\n", sal[i]);
+		}
+	}
+}
+
+//funcao para transferir
+int tranferir (int n, int* num, float* sal, float valor, int conta, int destino){
+	for (int i = 0; i < n; i++){
+		if (conta == num[i]){
+		creditar (n, num, sal, valor, conta);
+		}
+	}
+	for (int i = 0; i < n; i++){
+		if (destino == num[i]){
+		debitar (n, num, sal, valor, destino);
 		}
 	}
 }
@@ -50,11 +70,11 @@ int main (){
 	scanf("%d", &n);
 	
 	int num[n];
-	int sal[n];
+	float sal[n];
 
 	//for para inserir o numero de cada conta
-	for (int i = 1; i <= n; i++){
-		printf("digite o numero da %da conta: ", i);
+	for (int i = 0; i < n; i++){
+		printf("digite o numero da %da conta: ", i+1);
 		scanf("%d", &num[i]);
 		sal[i] = 0;
 	}
@@ -77,28 +97,69 @@ int main (){
 			
 		if(existe_conta (n, num, conta) == true){
 			creditar(n, num, sal, valor, conta);
-			printf("operacao realizada com sucesso");
+			printf("operacao realizada com sucesso\n");
 			system("pause");
 		} else {
 			printf("erro, a conta nao existe\n");
 			system("pause");
 		}
-}
-		
+	}
+		//debito
 		if (res == 2){
 			
-		}
-		
-		if (res == 3){
+			printf("qual o numero da conta? ");
+			scanf("%d", &conta);
+			printf("qual o valor a ser debitado? ");
+			scanf("%f", &valor);
 			
+			system("cls");
+			
+		if(existe_conta (n, num, conta) == true){
+			debitar(n, num, sal, valor, conta);
+			printf("operacao realizada com sucesso\n");
+			system("pause");
+			} else {
+			printf("erro, a conta nao existe\n");
+			system("pause");
+		}
+	}
+		//tranferencia
+		if (res == 3){
+
+			printf("digite o numero da conta de origem: ");
+			scanf("%d", &conta);
+			printf("digite o numero da conta de destino: ");
+			scanf("%d", &destino);
+			printf("digite o valor a ser tranferido: ");
+			scanf("%f", &valor);
+			
+			//isso aqui é pra verificar se as duas contas existem
+			if((existe_conta (n, num, conta) == true) || (existe_conta (n, num, destino) == true)){
+			tranferir (n, num, sal, valor, conta, destino);
+			printf("operacao realizada com sucesso\n");
+			system("pause");
+		      } else {
+			printf("erro, a conta nao existe\n");
+			system("pause");
+			}
 		}
 		
+		//consulta de saldo
 		if (res == 4){
 			
+			printf("qual o numero da conta? ");
+			scanf("%d", &conta);
+			
+			system("cls");
+			
+		if(existe_conta (n, num, conta) == true){
+			saldo (n, num, sal, conta);
+			system("pause");
+		} else {
+			printf("erro, a conta nao existe\n");
+			system("pause");
+			}
 		}
-		else{
-		}
-		
 	}
 	
  return 0;
