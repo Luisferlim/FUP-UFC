@@ -81,7 +81,6 @@ int main (){
 							achou = 1;
 						}
 					}
-					printf("%f", sal[1]);
 					//condição de erro, a conta nao existe
 					if (!achou){
 						printf("erro conta inexistente, voltando ao menu..\n");
