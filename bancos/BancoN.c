@@ -18,12 +18,12 @@ int main (){
 	float sal[n];
 	
 	//for para inserir o numero das contas
-		for (int i = 1; i <= n; i++){
-			printf("digite o numero da %da conta: ", i);
-			scanf("%d", &num[i]);
-			sal[i] = 0;
-		}
-		
+	for (int i = 1; i <= n; i++){
+		printf("digite o numero da %da conta: ", i);
+		scanf("%d", &num[i]);
+		sal[i] = 0;
+	}
+	
 	system("cls");
 	
 	while (res != 0){
@@ -46,12 +46,12 @@ int main (){
 					for (int i = 1; i <= n; i++){
 						if (conta == num[i]){
 							//credito
-							sal[i] -= valor;
+							sal[i] = sal[i] - valor;
 							achou = 1;
 						}
 					}
 					
-					//condiÃ§Ã£o de erro, a conta nao existe
+					//condição de erro, a conta nao existe
 					if (!achou){
 						printf("erro conta inexistente, voltando ao menu..\n");
 						system ("pause");
@@ -77,20 +77,18 @@ int main (){
 					for (int i = 1; i <= n; i++){
 						if (conta == num[i]){
 							//debito
-							sal[i] += valor;
+							sal[i] = sal[i] + valor;
 							achou = 1;
 						}
 					}
-					//condiÃ§Ã£o de erro, a conta nao existe
+					//condição de erro, a conta nao existe
 					if (!achou){
 						printf("erro conta inexistente, voltando ao menu..\n");
 						system ("pause");
 						achou = 1;
 					}
 				}
-				
-				achou = 0;
-	
+			achou = 0;
 			}
 			
 			//transferir
@@ -113,15 +111,15 @@ int main (){
 								//aqui ele procura a conta de destino
 								if(destino == num[j]){
 								//a transferencia em si
-									num[i] -= valor;
-									num[j] += valor;
-										achou = 1;
+									sal[i] = sal[i] - valor;
+									sal[j] = sal[j] + valor;
+									achou = 1;
 								}
 							}
 						}
 					}
 					
-					//condiÃ§Ã£o de erro, uma das contas ou as duas nao existem
+					//condição de erro, uma das contas ou as duas nao existem
 					if (!achou){
 						printf("erro uma das contas ou as duas inexistem, voltando ao menu..\n");
 						system ("pause");
@@ -149,7 +147,7 @@ int main (){
 						}
 					}
 					
-					//condiÃ§Ã£o de erro, a conta nao existe
+					//condição de erro, a conta nao existe
 					if (!achou){
 						printf("erro conta inexistente, voltando ao menu..\n");
 						system ("pause");
@@ -157,6 +155,8 @@ int main (){
 					}
 				}
 			}
+			
+			achou = 0;
 		}
 	    
 	    
