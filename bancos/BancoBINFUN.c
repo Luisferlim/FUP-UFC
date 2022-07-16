@@ -1,0 +1,133 @@
+#include <stdio.h>
+
+int num;
+
+/*
+
+Refatore o programa chamado BancoBIN, a fim de organizar o código utilizando subrotinas (funções). 
+
+*/
+
+typedef struct conta{
+    int c;
+    float s;
+    char t[35];
+} acc;
+
+void credito(acc *conta){
+    int n;
+    float val;
+    printf("Entre número da conta e valor a ser creditado: ");
+    scanf("%d %f", &n, &val);
+    for(int i = 0; i < num; i++){
+       if(n == conta[i].c)
+        conta[i].s += val;
+    }                  
+}
+
+void debito(acc *conta){
+    int n;
+    float v;
+    printf("Entre número da conta e valor a ser debitado: ");
+    scanf("%d %f", &n, &v);
+    for(int i = 0; i < num; i++){
+        if(n == conta[i].c)
+            conta[i].s -= v;
+    }
+}
+
+void transferencia(acc *conta){
+    int no, nd;
+    float v;
+    printf("Entre o número da conta de origem, o número da conta de destino e o valor a ser transferido: ");
+    scanf("%d %d %f", &no, &nd, &v);
+    for(int i = 0; i < num; i++){
+        if(no == conta[i].c)
+            conta[i].s -= v;
+        if(nd == conta[i].c)
+            conta[i].s += v;
+    }
+}
+
+void saldo(acc *conta){
+    int n;
+    printf("Entre número da conta a ter saldo consultado: ");
+    scanf("%d", &n);
+    for(int i = 0; i < num; i++){
+        if(n == conta[i].c)
+            printf("R$%.2f\n", conta[i].s);
+    }
+}
+
+    FILE *file;
+
+int main(){
+    printf("Entre quantas contas serão: ");
+    scanf("%d", &num);
+    
+    acc conta[num];
+
+    for(int i = 0; i < num; i++){
+        conta[i].s = 0;
+    }
+    
+    for(int i = 0; i < num; i++){
+        printf("Entre número da conta %d: ", i+1);
+        scanf("%d", &conta[i].c);
+    }
+    
+    for(int i = 0 ;  i < num; i++){
+        printf("Entre tipo da conta %d: ", i+1);
+        setbuf(stdin, NULL);
+        fgets(conta[i].t, 35, stdin);
+    }
+    
+    int ent = 1;
+    int op;
+    
+    while(ent != 0){
+        printf("..MENU.. \n1 - credito\n2 - debito\n3 - transferir\n4 - consultar saldo\n5 - remover conta \nselecione uma opcao(0 para sair)");
+        scanf("%d", &op);
+        if(op == 0)
+            ent = 0;
+        if(op == 1){
+            credito(conta);
+        }
+        if(op == 2){
+            debito(conta);
+        }
+        if(op == 3){
+            transferencia(conta);
+        }
+        if(op == 4){
+            saldo(conta);
+        }
+    }
+
+    file = fopen("banco.txt", "wb");
+    fwrite(&num, 1, sizeof(int), file);
+    fwrite("\n", 1, sizeof(char), file);
+    for (int i = 0; i < num; i++)
+    {
+        fwrite(&"\n", 1, sizeof(char), file);
+        if (conta[i].c >= 0)
+        {
+            fwrite(&conta[i].c, 1, sizeof(conta[i].c), file);
+            fwrite(":", 1, sizeof(char), file);
+            fwrite(&conta[i].t, 1, sizeof(conta[i].t), file);
+            fwrite("\n", 1, sizeof(char), file);
+            fwrite(&conta[i].s, 1, sizeof(conta[i].s), file);
+            fwrite("\n", 1, sizeof(char), file);
+        }
+    }
+
+    fclose(file);
+
+    if (file == NULL)
+        printf("Erro na abertura do arquivo\n");
+    else
+        printf("Contas armazenadas no arquivo banco.txt\n");
+        
+    return 0;
+    
+}
